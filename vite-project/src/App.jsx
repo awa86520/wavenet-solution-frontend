@@ -1,16 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Login from './components/Login';
+import UserDashboard from './components/UserDashboard';
+import InvoiceDashboard from './components/InvoiceDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
-    <>
-     <h1 className='bg-red-500'>home</h1>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <UserDashboard />
+          </ProtectedRoute>
+        } />
 
-export default App
+        <Route path="/invoices" element={
+          <ProtectedRoute>
+            <InvoiceDashboard />
+          </ProtectedRoute>
+        } />
+
+        <Route path="*" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
+
+
+
